@@ -58,7 +58,7 @@ OLLAMA_URL = os.getenv(
 
 OLLAMA_MODEL = os.getenv(
     "OLLAMA_MODEL",
-    "qwen2.5-coder:7b",
+    "qwen2.5-coder:3b-instruct-q4_K_M",
 )
 
 TRAIN_COMMAND = os.getenv(
@@ -231,6 +231,7 @@ def ollama_chat(messages):
         "format": "json",
         "options": {
             "temperature": 0.2,
+            "num_ctx": 32768,
         },
     }
 
@@ -662,6 +663,16 @@ def main():
                 original_train,
             )
 
+            # Use the training output as the error.
+            if code != 0:
+                error = output.strip()
+            else:
+                error = (
+                    f"Could not find metric "
+                    f"'{METRIC_NAME}' in training output.\n\n"
+                    f"{output.strip()}"
+                )
+
             save_result({
                 "experiment": experiment,
                 "status": "failed",
@@ -669,6 +680,7 @@ def main():
                 "hypothesis": hypothesis,
                 "reasoning": reasoning,
                 "elapsed": elapsed,
+                "error": error,
             })
 
             history.append({
@@ -676,6 +688,7 @@ def main():
                 "status": "failed",
                 "metric": None,
                 "hypothesis": hypothesis,
+                "error": error,
             })
 
             continue
@@ -730,6 +743,7 @@ def main():
             "hypothesis": hypothesis,
             "reasoning": reasoning,
             "elapsed": elapsed,
+            "error": ""
         }
 
         save_result(result)

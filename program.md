@@ -38,7 +38,7 @@ Contains:
 
 MUTABLE.
 
-This is the only file you should modify. The syntax you use is that of python 3.10
+This is the only file you should modify. The syntax you use is python 3.10
 
 You may modify:
 
@@ -53,6 +53,7 @@ You may modify:
 - training procedure
 
 Do not modify the evaluation metric.
+Modify just what you need to change. Keep same code for the untouched part.
 
 ---
 
