@@ -5,10 +5,9 @@ class TimeBudgetCallback(keras.callbacks.Callback):
     """
     Stop training once the fixed wall-clock budget is reached.
     
-    ```
     This is preferable to simply comparing epoch counts if experiments
     have different computational costs.
-    ```
+    """
     
     def __init__(self, seconds: float):
         self.seconds = seconds
